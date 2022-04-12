@@ -1,10 +1,10 @@
-﻿using eTickets.Data.Enum;
-using eTickets.Models;
+﻿using eTickets.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace eTickets.Data
 {
@@ -316,6 +316,7 @@ namespace eTickets.Data
                     context.SaveChanges();
                 }
             }
+
         }
     }
 }
