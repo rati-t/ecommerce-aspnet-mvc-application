@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using eTickets.Data.Services;
 
 namespace eTickets
 {
@@ -27,6 +28,9 @@ namespace eTickets
         {
             // DbContext
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnectionString")));
+
+            // Service Configuration
+            services.AddScoped<IActorService, ActorService>();
 
             services.AddControllersWithViews();
         }
@@ -57,7 +61,6 @@ namespace eTickets
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
-
 
             //Seed Database
             AppDbInitializer.Seed(app);
