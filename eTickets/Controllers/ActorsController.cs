@@ -68,13 +68,26 @@ namespace eTickets.Controllers
             {
                 return View(actor);
             }
-            await _service.UpdateAsync(id, actor);
-            return RedirectToAction(nameof(Index));
+
+            if(id == actor.Id) 
+            { 
+                await _service.UpdateAsync(id, actor);
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View();
         }
 
         // [HttpPost] HttpPost is not working here, search for explanation
         public async Task<IActionResult> Delete(int id)
         {
+            var actor = await _service.GetByIdAsync(id);
+
+            if (actor == null)
+            {
+                return View("NotFound");
+            }
+
             if (!ModelState.IsValid)
             {
                 return View("Item");
