@@ -144,8 +144,8 @@ namespace eTickets.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -168,8 +168,8 @@ namespace eTickets.Migrations
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
@@ -219,8 +219,8 @@ namespace eTickets.Migrations
                     b.Property<int?>("MovieId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ShoppingCartId")
-                        .HasColumnType("int");
+                    b.Property<string>("ShoppingCartId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
