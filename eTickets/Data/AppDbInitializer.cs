@@ -319,7 +319,6 @@ namespace eTickets.Data
                     context.SaveChanges();
                 }
             }
-
         }
 
         public static async Task SeedUserAndRolesAsync(IApplicationBuilder applicationBuilder)
