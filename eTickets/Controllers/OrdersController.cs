@@ -1,11 +1,15 @@
 ﻿using eTickets.Data.Cart;
 using eTickets.Data.Services;
+using eTickets.Data.Static;
 using eTickets.Data.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace eTickets.Controllers
 {
+    [Authorize]
     public class OrdersController : Controller
     {
         private readonly IMoviesService _service;
@@ -33,8 +37,10 @@ namespace eTickets.Controllers
 
         public async Task<ActionResult> Index()
         {
-            string userId = "";
-            var orders = await _orderService.GetOrdersByUserIdAsycn(userId);
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            string userRole = User.FindFirstValue(ClaimTypes.Role);
+
+            var orders = await _orderService.GetOrdersByUserIdAndRoleAsycn(userId, userRole);
 
             return View(orders);
         }
@@ -75,11 +81,12 @@ namespace eTickets.Controllers
             return RedirectToAction(nameof(ShoppingCart));
         }
 
+        
         public async Task<IActionResult> CompleteOrder()
         {
             var orderItems = _shoppingCart.GetShoppingCartItems();
-            string userId = "";
-            string emailAddress = "";
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            string emailAddress = User.FindFirstValue(ClaimTypes.Email);
 
             await _orderService.StoreOrderAsync(orderItems, userId, emailAddress);
             await _shoppingCart.ClearShoppingCartAsycn();

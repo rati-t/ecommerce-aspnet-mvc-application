@@ -7,9 +7,12 @@ using System.Threading.Tasks;
 using System.Linq;
 using eTickets.Data.Services;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
+using eTickets.Data.Static;
 
 namespace eTickets.Controllers
 {
+    [Authorize(Roles = UserRoles.Admin)]
     public class MoviesController : Controller
     {
         private readonly IMoviesService _service;
@@ -17,6 +20,7 @@ namespace eTickets.Controllers
         {
             _service = service;
         }
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var movies = await _service.GetAllAsync((n => n.Cinema));
@@ -24,13 +28,15 @@ namespace eTickets.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Filter(string searchString)
         {
             var allMovies = await _service.GetAllAsync((n => n.Cinema));
 
             if (!string.IsNullOrEmpty(searchString))
             {
-                var filteredResult= allMovies.Where(m => m.Name.Contains(searchString) || m.Description.Contains(searchString)).ToList();
+                var filteredResult = allMovies.Where(m => string.Equals(m.Name, searchString, System.StringComparison.CurrentCultureIgnoreCase)
+                                                            || string.Equals(m.Description, searchString, System.StringComparison.CurrentCultureIgnoreCase));
                 return View("Index", filteredResult);
             }
 
@@ -38,6 +44,7 @@ namespace eTickets.Controllers
         }
 
         // GET: Movie/Details
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
         {
             var movie = await _service.GetMovieByIdAsync(id);
