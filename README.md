@@ -1,3 +1,3 @@
 # ecommerce-aspnet-mvc-application
 
-Hosted Website: https://eticketslocker.azurewebsites.net/
+(Was) Hosted Website: https://eticketslocker.azurewebsites.net/
